@@ -14,8 +14,6 @@ import com.jungle77.tour.dto.CurrencyRatesDto;
 import com.jungle77.tour.dto.TourRequestDto;
 import com.jungle77.tour.dto.TourResponseDto;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Service
 public class TourService {
 	

@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jungle77.tour.dto.CountryCurrency;
 import com.jungle77.tour.dto.TourRequestDto;
 import com.jungle77.tour.dto.TourResponseDto;
+import com.jungle77.tour.exceptions.TourBadRequestException;
 import com.jungle77.tour.exceptions.TourException;
+import com.jungle77.tour.exceptions.TourInternalErrorException;
 import com.jungle77.tour.service.TourService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -31,15 +34,31 @@ public class TourResource {
     	
     	log.info("Received request for tour evaluation: {}", tourRequestDto);
     	
+    	validateRequest(tourRequestDto);
+    	
     	TourResponseDto tourResponseDto = tourService.evaluateTour(tourRequestDto);
     	
     	if (tourResponseDto == null) {
-    		throw new TourException();
+    		throw new TourInternalErrorException();
     	}
     	
     	log.info("Tour evaluated: {}", tourResponseDto);
     	
     	return tourResponseDto;
+    }
+    
+    private void validateRequest(TourRequestDto tourRequestDto) throws TourException {
+    	if (CountryCurrency.fromCurrency(tourRequestDto.getCurrency().toUpperCase()) == null) {
+    		throw new TourBadRequestException(tourRequestDto.getCurrency() + " is not a valid currency code");
+    	}
+    	
+    	try {
+    		CountryCurrency.valueOf(tourRequestDto.getStartingCountryCode().toUpperCase());
+    	} catch (IllegalArgumentException e) {
+    		throw new TourBadRequestException(tourRequestDto.getStartingCountryCode() + " is not a valid country code");
+    	}
+    	tourRequestDto.setStartingCountryCode(tourRequestDto.getStartingCountryCode().toUpperCase());
+    	tourRequestDto.setCurrency(tourRequestDto.getCurrency().toUpperCase());
     }
     
 }

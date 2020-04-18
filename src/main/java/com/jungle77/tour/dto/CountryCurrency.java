@@ -264,6 +264,6 @@ public enum CountryCurrency {
 				return c;
 			}
 		}
-		throw new IllegalArgumentException("CountryCurrency enum value is not found  " + currency);
+		return null;
 	}
 }
