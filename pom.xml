@@ -20,7 +20,7 @@
     	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     	<org-modelmapper>2.3.2</org-modelmapper>
     	<javax.ws.rs-api>2.0</javax.ws.rs-api>
-    	<org.json.version>20180813</org.json.version>
+    	<org.json.version>20230227</org.json.version>
     	<javax.ws.rs-api>2.0</javax.ws.rs-api>
   	    <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
     	<jdk.version>11</jdk.version>
